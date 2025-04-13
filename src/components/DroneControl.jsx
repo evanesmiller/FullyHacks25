@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
-import './DroneControl.css'
+import './DroneControl.css';
 
 const DroneControl = () => {
   const [chatOutput, setChatOutput] = useState('');
   const [chatInput, setChatInput] = useState('');
-  const [droneStatus, setDroneStatus] = useState('Connected');
+  const [droneStatus] = useState('Connected');
   const [battery, setBattery] = useState('Unknown');
 
   const appendChatMessage = (htmlMessage) => {
@@ -50,13 +49,12 @@ const DroneControl = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // Remove the "Assistant is thinking..." message before adding the response.
-        // (Here, for simplicity, we just append the response.)
         appendChatMessage(`<div class="assistant-message">Assistant: ${data.response}</div>`);
       })
       .catch((err) => appendChatMessage(`<div class="system-message">Error: ${err.toString()}</div>`));
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     appendChatMessage(`<div class="system-message">Welcome to the Tello Drone Control Panel!</div>`);
     sendCommand('battery', true);
@@ -65,8 +63,7 @@ const DroneControl = () => {
   return (
     <div className="container">
       <div className="header">
-        <h1>Tello Drone Control Panel</h1>
-        <p>Control your drone and view the live stream</p>
+        <h1>Altivue Control Panel</h1>
       </div>
 
       <div className="content">
@@ -76,25 +73,9 @@ const DroneControl = () => {
         </div>
 
         <div className="controls">
-          <div className="quick-commands">
-            <h2>Quick Commands</h2>
-            <div className="command-grid">
-              <button className="command-button" onClick={() => sendCommand('takeoff')}>Take Off</button>
-              <button className="command-button" onClick={() => sendCommand('land')}>Land</button>
-              <button className="command-button" onClick={() => sendCommand('emergency')}>Emergency Stop</button>
-              <button className="command-button" onClick={() => sendCommand('battery')}>Check Battery</button>
-              <button className="command-button" onClick={() => sendCommand('move_forward 30')}>Forward 30cm</button>
-              <button className="command-button" onClick={() => sendCommand('rotate_clockwise 90')}>Rotate CW 90°</button>
-            </div>
-          </div>
-
           <div className="chatbot-container">
             <h2>AI Drone Assistant</h2>
-            <div
-              id="chatOutput"
-              className="chat-output"
-              dangerouslySetInnerHTML={{ __html: chatOutput }}
-            ></div>
+            <div id="chatOutput" className="chat-output" dangerouslySetInnerHTML={{ __html: chatOutput }}></div>
             <div className="chat-controls">
               <input
                 type="text"
@@ -106,9 +87,22 @@ const DroneControl = () => {
                   if (e.key === 'Enter') sendChatMessage();
                 }}
               />
-              <button id="sendButton" onClick={sendChatMessage}>
-                Send
-              </button>
+              <button id="sendButton" onClick={sendChatMessage}>Send</button>
+            </div>
+          </div>
+
+          <div className="quick-commands">
+            <h2>Quick Commands</h2>
+            <div className="command-grid">
+              {[
+                'takeoff', 'toggle_detection', 'land', 'move_up 20', 'move_down 20', 'battery',
+                'move_forward 30', 'move_back 30', 'flip_forward', 'move_left 30', 'move_right 30',
+                'flip_back', 'rotate_clockwise 90', 'rotate_counter_clockwise 90', 'streamoff'
+              ].map((cmd, idx) => (
+                <button key={idx} className="command-button" onClick={() => sendCommand(cmd)}>
+                  {cmd.replace(/_/g, ' ')}
+                </button>
+              ))}
             </div>
           </div>
         </div>
