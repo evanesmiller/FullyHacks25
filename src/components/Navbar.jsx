@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import './Navbar.css';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+
 
   return (
     <nav className="navbar">
@@ -17,9 +18,8 @@ function Navbar() {
       {isOpen && (
         <div className="menu">
           <Link onClick={() => setIsOpen(false)} to="/">Home</Link>
-          <Link onClick={() => setIsOpen(false)} to="/about">About</Link>
-          <Link onClick={() => setIsOpen(false)} to="/livecam">Live Cam</Link>
-          <Link onClick={() => setIsOpen(false)} to="/chatbot">Chatbot</Link>
+          <Link onClick={() => setIsOpen(false)} smooth to="/#about">About</Link>
+          <Link onClick={() => setIsOpen(false)} to="/control">Control</Link>
         </div>
       )}
     </nav>
