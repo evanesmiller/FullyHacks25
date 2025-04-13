@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import './DroneControl.css';
+import './DroneControl.css'
 
 const DroneControl = () => {
   const [chatOutput, setChatOutput] = useState('');

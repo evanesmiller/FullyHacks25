@@ -1,9 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import Home from './pages/Home';
-import About from './pages/About';
-import Chatbot from './pages/Chatbot';
-import Livecam from './pages/Livecam';
+import Control from './pages/Control';
 
 export default function App() {
   return (
@@ -11,9 +9,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/livecam" element={<Livecam />} />
-          <Route path="/chatbot" element={<Chatbot />} />
+          <Route path="/control" element={<Control />} />
         </Routes>
       </BrowserRouter>
     </div>
